@@ -18,32 +18,32 @@ public class CalculationService {
 
     public int performCalculation(int number1, int number2, String operation) {
         int result = 0;
-        switch (operation) {
-            case "+":
-                result = number1 + number2;
-                break;
-            case "-":
-                result = number1 - number2;
-                break;
-            case "*":
-                result = number1 * number2;
-                break;
-            case "/":
-                if (number2 != 0) {
-                    result = number1 / number2;
-                } else {
-                    throw new IllegalArgumentException("Division by zero");
-                }
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid operation");
+        if (operation.equals("+")) {
+            result = number1 + number2;
+        } else if (operation.equals("-")) {
+            result = number1 - number2;
+        } else if (operation.equals("*")) {
+            result = number1 * number2;
+        } else if (operation.equals("/")) {
+            if (number2 != 0) {
+                result = number1 / number2;
+            } else {
+                throw new IllegalArgumentException("Division by zero");
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid operation");
         }
 
-        Calculation calculation = new Calculation(number1, number2, operation);
-        entityManager.persist(calculation);
+        saveCalculation(number1, number2, operation);
 
         return result;
     }
+
+    private void saveCalculation(int number1, int number2, String operation) {
+        Calculation calculation = new Calculation(number1, number2, operation);
+        entityManager.persist(calculation);
+    }
+
     public List<Calculation> getAllCalculations() {
         TypedQuery<Calculation> query = entityManager.createQuery("SELECT c FROM Calculation c", Calculation.class);
         return query.getResultList();

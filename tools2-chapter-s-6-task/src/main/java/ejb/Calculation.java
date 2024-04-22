@@ -13,7 +13,6 @@ public class Calculation {
     private int number2;
     private String operation;
 
-    // Constructors, getters, and setters
     public Calculation() {}
 
     public Calculation(int number1, int number2, String operation) {
@@ -22,7 +21,6 @@ public class Calculation {
         this.operation = operation;
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }

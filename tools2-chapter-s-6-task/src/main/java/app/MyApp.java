@@ -20,10 +20,17 @@ public class MyApp {
     public Response createCalculation(CalculationRequest request) {
         try {
             int result = calculationService.performCalculation(request.getNumber1(), request.getNumber2(), request.getOperation());
-            return Response.ok(new CalculationResponse(result)).build();
+            return buildResponse(result);
         } catch (IllegalArgumentException e) {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).build();
+            return buildErrorResponse(e.getMessage());
         }
+    }
+    private Response buildResponse(int result) {
+        return Response.ok(new CalculationResponse(result)).build();
+    }
+
+    private Response buildErrorResponse(String message) {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(message).build();
     }
     @GET
     @Path("/calculations")
